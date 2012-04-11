@@ -1,3 +1,3 @@
 # gClicker
 
-Conduct ad hoc classroom polls using Android apps instead of those expensive white plastic devices.
+Conduct ad hoc classroom polls using an Android app instead of those expensive white plastic devices.
