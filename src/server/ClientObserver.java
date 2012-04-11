@@ -15,12 +15,12 @@ import shared.Question;
 
 public class ClientObserver implements Observer{
 	private Socket socket;
-	private PrintWriter out;
+	private ObjectOutputStream out;
 	private BufferedReader in;
 	public ClientObserver(Socket s){
 		this.socket = s;
 		try {
-			out = new PrintWriter(socket.getOutputStream(), true);
+			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			in =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -43,12 +43,13 @@ public class ClientObserver implements Observer{
 
 
 
-			System.out.println("Got a question " + question);
+			System.out.println("Got a question:");
+			System.out.println(question);
 
 			//serialize this question and send it over the socket
-			ObjectOutputStream op = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			op.writeObject(question);
-
+			
+			out.writeObject(question);
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

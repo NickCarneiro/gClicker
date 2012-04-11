@@ -48,7 +48,7 @@ public class QuestionManager extends Observable{
 				
 				if(line.contains("/question")){
 					current_question = new Question(line.replace("/question ", ""));
-					System.out.println("Added new question: " + current_question);
+					System.out.println("Added new question: " + current_question.getQuestionText());
 				} else if(line.contains("/send")) {
 					//broadcast question if it's valid
 					if(current_question == null){
@@ -58,7 +58,7 @@ public class QuestionManager extends Observable{
 						System.out.println("A question must have at least 2 choices.");
 					} else {
 						System.out.println("Broadcasting question to " + this.countObservers() + " clients.");
-						System.out.println(current_question);
+						//System.out.println(current_question);
 						//broadcast the question
 						this.setChanged();
 						this.notifyObservers();

@@ -26,7 +26,9 @@ public class Question implements Serializable{
 		}
 		
 	}
-	
+	public String getQuestionText(){
+		return this.question_text == null ? "Empty Question" : this.question_text;
+	}
 	public String toString(){
 		String question = question_text + "\n";
 		int i = 0;
