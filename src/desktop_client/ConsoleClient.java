@@ -40,6 +40,8 @@ public class ConsoleClient{
 			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 			System.out.println("established ObjectInputStream");
 			ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			
+			//prevent InputStream on the server from blocking
 			output.flush();
 			
 			System.out.println("established ObjectOutputStream");
