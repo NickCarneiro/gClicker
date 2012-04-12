@@ -39,7 +39,7 @@ public class QuestionManager extends Observable{
 			current_question = null;
 			
 			System.out.println("Welcome to the interactive QuestionManager shell.");
-			System.out.println("Commands: /question, /send, /clear");
+			System.out.println("Commands: /question, /send, /clear, /end");
 			while(true){
 				line = reader.readLine();
 				if(line.equals("exit")){
@@ -49,6 +49,15 @@ public class QuestionManager extends Observable{
 				if(line.contains("/question")){
 					current_question = new Question(line.replace("/question ", ""));
 					System.out.println("Added new question: " + current_question.getQuestionText());
+					
+					//end the answer period for a question
+				}else if(line.contains("/end")){
+					if(current_question == null){
+						System.out.println("You must first create a question in order to end one.");
+					} else {
+						current_question.printResults();
+						current_question = null;
+					}
 				} else if(line.contains("/send")) {
 					//broadcast question if it's valid
 					if(current_question == null){

@@ -36,7 +36,9 @@ public class Server implements Runnable{
 				Socket clientSocket = listener.accept();
 				System.out.println("Got connection from " + clientSocket.getInetAddress());
 				ClientObserver co = new ClientObserver(clientSocket);
+				
 				qm.addObserver(co);
+				System.out.println("Added " + clientSocket.getInetAddress() +" as an observer.");
 
 
 			}

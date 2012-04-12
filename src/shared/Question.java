@@ -4,18 +4,42 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Question implements Serializable{
-	private String id;
+	public int id;
+	public static Integer last_id = 0;
 	//answer choices
 	private ArrayList<String> choices;
+	//
+	private ArrayList<Integer> answer_counts;
 	private String question_text;
 		
 	public Question(String question){
 		question_text = question;
 		choices = new ArrayList<String>();
+		answer_counts = new ArrayList<Integer>();
+		
+		//not thread safe, but only one thread is instantiating questions.
+		last_id++;
+		this.id = last_id;
+		
 	}
 	
+	/**
+	 * Add an answer choice that a client is able to select.
+	 * eg: "Hydrogen"
+	 * @param choice
+	 */
 	public void addChoice(String choice){
 		choices.add(choice);
+		answer_counts.add(0);
+	}
+	
+	public synchronized void incrementAnswer(int choice){
+		if(choice < 0 || choice > choices.size() - 1){
+			System.err.println("Choice was not in valid range.");
+			
+		}else {
+			answer_counts.set(choice, answer_counts.get(choice) + 1);
+		}
 	}
 	
 	public int size(){
@@ -40,5 +64,18 @@ public class Question implements Serializable{
 			i++;
 		}
 		return question;
+	}
+	
+	public void printResults(){
+		if(answer_counts == null){
+			return;
+		}
+		
+		int i = 0;
+		for(Integer count : answer_counts){
+			char letter = (char) (i + 65);
+			System.out.println(letter + ": " + count);
+			i++;
+		}
 	}
 }
