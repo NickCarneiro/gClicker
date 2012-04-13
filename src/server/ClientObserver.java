@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,15 +21,29 @@ public class ClientObserver implements Observer{
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	public InetAddress ip;
+	public String eid;
+	private Thread t; //runs ResponseMonitor
 	public ClientObserver(Socket s){
 		this.socket = s;
 		try {
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			
 			//prevent inputstream on the client from blocking
 			out.flush();
 			in =  new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+			//wait for dummy answer with EID
+			Answer dummyAnswer = (Answer) in.readObject();
+			
+			
+			this.eid = dummyAnswer.eid;
+			this.ip = socket.getInetAddress();
+			ClickerModel.clickerConnected(this);
 		
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -37,6 +52,7 @@ public class ClientObserver implements Observer{
 
 
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void update(Observable o, Object arg1) {
 		try {
@@ -57,20 +73,16 @@ public class ClientObserver implements Observer{
 			out.writeObject(question);
 			out.flush();
 			
-			//wait for an answer
-			
-			
-			Answer answer = (Answer)in.readObject();
-			
-			//add answer to current question
-			if(qm.current_question.id == answer.question_id){
-				//if this response is for the current question, increment the appropriate index
-				qm.current_question.incrementAnswer(answer.getChoice());
+			if(t != null){
+				t.stop();
 			}
+			//wait for an answer in another thread
+			t = new Thread(new ResponseMonitor(qm, in));
+			t.start();
+			
+			
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

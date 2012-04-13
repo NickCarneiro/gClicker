@@ -8,7 +8,7 @@ import java.util.Observable;
 public class Server implements Runnable{
 	ServerSocket listener;
 	int port = 3000;
-	QuestionManager qm;
+	public QuestionManager qm;
 	//run TCP server upon initialization
 	public Server(QuestionManager qm){
 		this.qm = qm;
@@ -34,7 +34,6 @@ public class Server implements Runnable{
 
 				
 				Socket clientSocket = listener.accept();
-				System.out.println("Got connection from " + clientSocket.getInetAddress());
 				ClientObserver co = new ClientObserver(clientSocket);
 				
 				qm.addObserver(co);

@@ -38,20 +38,20 @@ public class ConsoleClient{
 			Socket socket = new Socket(ia, port);
 
 			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-			System.out.println("established ObjectInputStream");
 			ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			
+			Answer dummyAnswer = new Answer(0, Integer.MAX_VALUE, "njc487");
+			output.writeObject(dummyAnswer);
 			//prevent InputStream on the server from blocking
 			output.flush();
 			
-			System.out.println("established ObjectOutputStream");
 			System.out.println("Waiting for question.");
 			Question question = (Question) input.readObject();
 			while(question != null){
 				System.out.println(question);
 				//read answer choice (blocks until user hits enter)
 				int choice = readAnswer(reader, question.size());
-				Answer answer = new Answer(choice, question.id);
+				Answer answer = new Answer(choice, question.id, "njc487");
 				//send back to the server
 				output.writeObject(answer);
 				output.flush();

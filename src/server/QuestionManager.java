@@ -26,6 +26,13 @@ public class QuestionManager extends Observable{
 		
 	}
 	
+	public void sendQuestion(Question q){
+		current_question = q;
+		this.setChanged();
+		
+		//
+		this.notifyObservers();
+	}
 	
 	/**
 	 * Processes commands for QuestionManager
