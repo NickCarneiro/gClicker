@@ -23,8 +23,9 @@ public class ClientObserver implements Observer{
 	private ObjectInputStream in;
 	public InetAddress ip;
 	public String eid;
+	public int clicker_id;
 	private Thread t; //runs ResponseMonitor
-	public ClientObserver(Socket s){
+	public ClientObserver(Socket s, QuestionManager qm){
 		this.socket = s;
 		try {
 			out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
@@ -39,6 +40,14 @@ public class ClientObserver implements Observer{
 			this.eid = dummyAnswer.eid;
 			this.ip = socket.getInetAddress();
 			ClickerModel.clickerConnected(this);
+			
+			//now send a dummy question to assign the clicker its id number
+			Question dummyQuestion = new Question("");
+			dummyQuestion.message = true;
+			this.clicker_id = qm.getClickerId();
+			dummyQuestion.clicker_id = this.clicker_id;
+			out.writeObject(dummyQuestion);
+			out.flush();
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -70,6 +79,7 @@ public class ClientObserver implements Observer{
 
 			//serialize this question and send it over the socket
 			
+		
 			out.writeObject(question);
 			out.flush();
 			

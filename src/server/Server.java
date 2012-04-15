@@ -34,7 +34,7 @@ public class Server implements Runnable{
 
 				
 				Socket clientSocket = listener.accept();
-				ClientObserver co = new ClientObserver(clientSocket);
+				ClientObserver co = new ClientObserver(clientSocket, qm);
 				
 				qm.addObserver(co);
 				System.out.println("Added " + clientSocket.getInetAddress() +" as an observer.");

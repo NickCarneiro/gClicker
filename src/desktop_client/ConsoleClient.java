@@ -20,6 +20,7 @@ import shared.Question;
 public class ConsoleClient{
 	private static String server_ip = "127.0.0.1:3000";
 	private static BufferedReader in;
+	private static int clicker_id;
 	public static void main(String[] args){
 		try {
 			//prompt for IP address
@@ -45,8 +46,15 @@ public class ConsoleClient{
 			//prevent InputStream on the server from blocking
 			output.flush();
 			
-			System.out.println("Waiting for question.");
+			System.out.println("Waiting for clicker id.");
 			Question question = (Question) input.readObject();
+			if(question.message == true){
+				clicker_id = question.clicker_id;
+				System.out.println("Clicker id assigned by server: " + clicker_id);
+			}
+			
+			System.out.println("Waiting for question.");
+			question = (Question) input.readObject();
 			while(question != null){
 				System.out.println(question);
 				//read answer choice (blocks until user hits enter)

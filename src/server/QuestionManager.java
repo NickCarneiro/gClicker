@@ -10,7 +10,15 @@ import shared.Question;
 public class QuestionManager extends Observable{
 	Question current_question;
 	
-	
+	/**
+	 * returns a clicker id that hasn't been used before
+	 * @return
+	 */
+	private int last_clicker_id = 0;
+	public synchronized int getClickerId(){
+		last_clicker_id++;
+		return last_clicker_id;
+	}
 	public Question getQuestion(){
 		return current_question;
 	}

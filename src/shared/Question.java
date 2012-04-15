@@ -11,7 +11,13 @@ public class Question implements Serializable{
 	//
 	private ArrayList<Integer> answer_counts;
 	private String question_text;
-		
+	
+	//if message is true, this is a dummy question. It's only purpose is to tell the client its assigned clicker id.
+	public boolean message = false;
+	
+	
+	public int clicker_id;
+	
 	public Question(String question){
 		question_text = question;
 		choices = new ArrayList<String>();
@@ -19,7 +25,9 @@ public class Question implements Serializable{
 		
 		//not thread safe, but only one thread is instantiating questions.
 		last_id++;
+		//this is the id for the question itself
 		this.id = last_id;
+		
 		
 	}
 	
