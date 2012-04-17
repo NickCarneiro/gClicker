@@ -21,9 +21,10 @@ public class GClicker extends JFrame implements Observer, TimerListener
    private AlignedPanel answerPanel, clickerPanel;
    private AnswerField answers[];
    private ClickerBox clickerBox[];
+   private GClickerModel model;
    private GClickerStats stats;
-   private InetAddress myAddress;
    private int ipAddress[];
+   private InetAddress myAddress;
    private JPanel content, ipPanel, questionPanel, clickerRows[];
    private JScrollPane questionPane;
    private JTextArea question;
@@ -34,6 +35,7 @@ public class GClicker extends JFrame implements Observer, TimerListener
       super("gClicker");
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setLocation(30, 30);
+      model = new GClickerModel();
       
       myAddress = InetAddress.getLocalHost();
       ipAddress = new int[4];
@@ -108,6 +110,7 @@ public class GClicker extends JFrame implements Observer, TimerListener
       getContentPane().add(content);
       pack();
       setVisible(true);
+      model.addObserver(this);
    }
    
    private void enableEdits(boolean enable)
