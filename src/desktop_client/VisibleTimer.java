@@ -1,4 +1,4 @@
-package src.desktop_client;
+package desktop_client;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
