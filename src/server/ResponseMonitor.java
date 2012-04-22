@@ -32,7 +32,7 @@ public class ResponseMonitor implements Runnable {
 			if(qm.current_question.id == answer.question_id){
 				//if this response is for the current question, increment the appropriate index
 				qm.current_question.incrementAnswer(answer.getChoice());
-				ClickerModel.answerSubmitted(answer);
+				qm.model.answerSubmitted(answer.eid, answer.getChoice());
 			}
 		} catch (EOFException e){
 			

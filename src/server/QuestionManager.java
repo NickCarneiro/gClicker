@@ -5,43 +5,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Observable;
 
+import server_ui.GClickerModel;
 import shared.Question;
 
 public class QuestionManager extends Observable{
 	Question current_question;
-	
+	public GClickerModel model;
 	/**
 	 * returns a clicker id that hasn't been used before
 	 * @return
 	 */
+	public QuestionManager(GClickerModel model){
+		this.model = model;
+	}
 	private int last_clicker_id = 0;
 	public synchronized int getClickerId(){
-		last_clicker_id++;
+		last_clicker_id++;	
 		return last_clicker_id;
 	}
 	public Question getQuestion(){
 		return current_question;
 	}
-	public static void main(String[] args){
-		QuestionManager qm = new QuestionManager();
-		//The server runs in the background
-		Thread t = new Thread(new Server(qm));
-		t.start();
-		
-		
-		qm.serverShell();
-		//we're blocked here until app is quit.
-		
-	}
-	
+
+
 	public void sendQuestion(Question q){
 		current_question = q;
 		this.setChanged();
-		
+
 		//
 		this.notifyObservers();
 	}
-	
+
 	/**
 	 * Processes commands for QuestionManager
 	 */
@@ -52,7 +46,7 @@ public class QuestionManager extends Observable{
 			String line;
 			//current question isn't set until the user creates one.
 			current_question = null;
-			
+
 			System.out.println("Welcome to the interactive QuestionManager shell.");
 			System.out.println("Commands: /question, /send, /clear, /end");
 			while(true){
@@ -60,11 +54,11 @@ public class QuestionManager extends Observable{
 				if(line.equals("exit")){
 					break;
 				}
-				
+
 				if(line.contains("/question")){
 					current_question = new Question(line.replace("/question ", ""));
 					System.out.println("Added new question: " + current_question.getQuestionText());
-					
+
 					//end the answer period for a question
 				}else if(line.contains("/end")){
 					if(current_question == null){
@@ -102,10 +96,10 @@ public class QuestionManager extends Observable{
 						System.out.println("Added answer choice: " + letter + ": " + line);
 					}
 				}
-				
+
 			}
-			
-			
+
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -39,7 +39,7 @@ public class ClientObserver implements Observer{
 			
 			this.eid = dummyAnswer.eid;
 			this.ip = socket.getInetAddress();
-			ClickerModel.clickerConnected(this);
+			qm.model.clickerConnected(this.eid, this.ip);
 			
 			//now send a dummy question to assign the clicker its id number
 			Question dummyQuestion = new Question("");
