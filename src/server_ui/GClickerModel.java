@@ -64,7 +64,10 @@ public class GClickerModel extends Observable
 	  System.out.println("broadcasting question: " + question);
       Question query = new Question(question);
       for (int i = 0; i < answers.length; i++){
-         query.addChoice(answers[i]);
+    	 if(answers[i] != null && ! "".equals(answers[i])){
+    		 query.addChoice(answers[i]);
+    	 }
+         
       }
       
       qm.sendQuestion(query);

@@ -27,9 +27,10 @@ public class ResponseMonitor implements Runnable {
 		try {
 			answer = (Answer)in.readObject();
 
-
+			
 			//add answer to current question
 			if(qm.current_question.id == answer.question_id){
+				System.out.println("got answer from " + answer.eid + ": " + answer.getChoiceLetter());
 				//if this response is for the current question, increment the appropriate index
 				qm.current_question.incrementAnswer(answer.getChoice());
 				qm.model.answerSubmitted(answer.eid, answer.getChoice());
