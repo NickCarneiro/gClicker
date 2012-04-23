@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.TreeMap;
 
+import server.QuestionManager;
 import server.Server;
 import shared.Question;
 
@@ -18,14 +19,14 @@ public class GClickerModel extends Observable
    public static final int NUM_CLICK_POSS = 40;
    public static final int NUM_CLICK_COLS = 10;
    
-   private Server server;
+   private QuestionManager qm;
    private TreeMap<String, GPerson> clients;
    private Question currentQuestion;
    
    public GClickerModel()
    {
       clients = new TreeMap<String, GPerson>();
-//      server = new Server(this); // I'd like to just be able to construct a server like this
+      qm = new QuestionManager(this); // I'd like to just be able to construct a server like this
    }
    
       // gClicker Server should call this method whenever any clicker
@@ -59,19 +60,14 @@ public class GClickerModel extends Observable
       // all GClickers. It contains a method to be implemented in Server.
       // It will traverse create a Question object and then submit it 
       // individually to each gClicker address.
-   public void broadcastQuestion(String question, String[] answers)
-   {
+   public void broadcastQuestion(String question, String[] answers){
+	  System.out.println("broadcasting question: " + question);
       Question query = new Question(question);
-      for (int i = 0; i < answers.length; i++)
+      for (int i = 0; i < answers.length; i++){
          query.addChoice(answers[i]);
-      
-      GPerson gPerson;
-      for (Map.Entry<String, GPerson> entry : clients.entrySet())
-      {
-         gPerson = entry.getValue();
-       //server.sendQuery(InetAddress inetAddress, Question question);  
-       //  server.sendQuery(gPerson.getAddress(), currentQuestion);
       }
+      
+      qm.sendQuestion(query);
    }
    
    public void resetClickers()

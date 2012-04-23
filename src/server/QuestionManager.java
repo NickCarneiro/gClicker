@@ -17,6 +17,9 @@ public class QuestionManager extends Observable{
 	 */
 	public QuestionManager(GClickerModel model){
 		this.model = model;
+		Server server = new Server(this);
+		Thread t = new Thread(server);
+		t.start();
 	}
 	private int last_clicker_id = 0;
 	public synchronized int getClickerId(){
