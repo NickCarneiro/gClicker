@@ -1,4 +1,4 @@
-package shared;
+package edu.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;

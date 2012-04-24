@@ -1,4 +1,4 @@
-package server_ui;
+package edu.desktop.server.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import server_ui.GClicker.AnswerField;
+import edu.desktop.server.ui.GClicker.AnswerField;
+
 
 public class GClickerStats extends JDialog implements ActionListener
 {

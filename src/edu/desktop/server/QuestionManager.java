@@ -1,12 +1,13 @@
-package server;
+package edu.desktop.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Observable;
 
-import server_ui.GClickerModel;
-import shared.Question;
+import edu.desktop.server.ui.GClickerModel;
+import edu.shared.Question;
+
 
 public class QuestionManager extends Observable{
 	Question current_question;

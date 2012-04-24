@@ -1,4 +1,4 @@
-package server_ui;
+package edu.desktop.server.ui;
 
 import java.net.InetAddress;
 

@@ -1,11 +1,12 @@
-package server;
+package edu.desktop.server;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import shared.Answer;
+import edu.shared.Answer;
+
 
 /**
  * this class waits for the response from clients once a question is sent.

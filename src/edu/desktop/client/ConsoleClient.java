@@ -1,4 +1,4 @@
-package desktop_client;
+package edu.desktop.client;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,8 +12,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 
-import shared.Answer;
-import shared.Question;
+import edu.shared.Answer;
+import edu.shared.Question;
+
 
 /*
  * command line client

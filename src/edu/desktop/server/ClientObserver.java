@@ -1,4 +1,4 @@
-package server;
+package edu.desktop.server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,9 +14,10 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-import server_ui.GPerson;
-import shared.Answer;
-import shared.Question;
+import edu.desktop.server.ui.GPerson;
+import edu.shared.Answer;
+import edu.shared.Question;
+
 
 public class ClientObserver implements Observer{
 	private Socket socket;

@@ -1,4 +1,4 @@
-package server_ui;
+package edu.desktop.server.ui;
 
 import java.awt.Font;
 import java.net.InetAddress;
@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.TreeMap;
 
-import server.QuestionManager;
-import server.Server;
-import shared.Question;
+import edu.desktop.server.QuestionManager;
+import edu.desktop.server.Server;
+import edu.shared.Question;
+
 
 public class GClickerModel extends Observable
 {
