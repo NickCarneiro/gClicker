@@ -21,7 +21,7 @@ public class GClickerModel extends Observable
    
    private Server server;
    private QuestionManager qm;
-   private TreeMap<String, GPerson> clients;
+   public TreeMap<String, GPerson> clients;
    private Question currentQuestion;
    
    public GClickerModel() {
@@ -32,14 +32,21 @@ public class GClickerModel extends Observable
       // gClicker Server should call this method whenever any clicker
       // connects/reconnects to the server. It will return an int that
       // represents a clickerID for the clicker that just connected.
-   public int clickerConnected(String eid, InetAddress clickerAddress){
+   public int clickerConnected(String eid, InetAddress clickerAddress, int clicker_id){
       GPerson gPerson = clients.get(eid);
+      //if person with this eid is connecting for the first time
       if (gPerson == null){
-         gPerson = new GPerson(eid, clickerAddress);
+         gPerson = new GPerson(eid, clickerAddress, clicker_id);
+         
          clients.put(gPerson.getEID(), gPerson);
          setChanged();
          notifyObservers();
       }
+      // else, if a client connects, disconnects, 
+      // then reconnects he can keep his old clicker_id and object.
+      
+      // we're going to pretend there's an authentication layer in the handshake
+      // that validates eids. In real life we would call some utexas.edu api.
       
       return gPerson.getClickerID();
    }

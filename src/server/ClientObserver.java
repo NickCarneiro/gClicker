@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
+import server_ui.GPerson;
 import shared.Answer;
 import shared.Question;
 
@@ -40,16 +41,29 @@ public class ClientObserver implements Observer{
 			this.eid = dummyAnswer.eid;
 			System.out.println("Got eid " + this.eid + " from " + s.getInetAddress().getHostAddress());
 			this.ip = socket.getInetAddress();
-			qm.model.clickerConnected(this.eid, this.ip);
+			
+			
+			
+			GPerson person = qm.model.clients.get(this.eid);
+			if(person != null){
+				//we've seen this eid before. reuse the clicker id.
+				this.clicker_id = person.getClickerID();
+			} else {
+				//unrecognized person. generate a unique new id.
+				this.clicker_id = qm.getClickerId();
+			}
 			
 			//now send a dummy question to assign the clicker its id number
 			Question dummyQuestion = new Question("");
 			dummyQuestion.message = true;
-			this.clicker_id = qm.getClickerId();
+			
 			dummyQuestion.clicker_id = this.clicker_id;
 			out.writeObject(dummyQuestion);
 			out.flush();
-		
+			
+			//tell UI that we got a new person
+			qm.model.clickerConnected(this.eid, this.ip, this.clicker_id);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

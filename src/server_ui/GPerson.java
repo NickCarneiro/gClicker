@@ -12,7 +12,7 @@ public class GPerson
    private InetAddress address;
    private String eid;
    
-   public GPerson(String id, InetAddress addr)
+   public GPerson(String id, InetAddress addr, int clicker_id)
    {
       if (availableClickers == null)
       {
@@ -26,22 +26,15 @@ public class GPerson
       newAnswer = false;
       answer = -1;
       
-      assignClickerID();
+      assignClickerID(clicker_id);
    }
    
-   private synchronized void assignClickerID()
+   //	doesn't need to be synchronized because QuestionManager getId 
+   // is synchronized and guarantees everything to be unique
+   private void assignClickerID(int clicker_id)
    {
-      for (int i = 0; i < availableClickers.length; i++)
-      {
-         if (availableClickers[i])
-         {
-            availableClickers[i] = false;
-            clickerID = i;
-            return;
-         }
-      }
-      
-      clickerID = -1;
+      this.clickerID = clicker_id;
+      availableClickers[clicker_id] = false;
    }
    
    public void changeAnswer(int ans)

@@ -21,10 +21,11 @@ public class QuestionManager extends Observable{
 		Thread t = new Thread(server);
 		t.start();
 	}
-	private int last_clicker_id = 0;
+	private int next_clicker_id = 0;
 	public synchronized int getClickerId(){
-		last_clicker_id++;	
-		return last_clicker_id;
+		int this_id = next_clicker_id;
+		next_clicker_id++;
+		return this_id;
 	}
 	public Question getQuestion(){
 		return current_question;
