@@ -38,6 +38,7 @@ public class ClientObserver implements Observer{
 			
 			
 			this.eid = dummyAnswer.eid;
+			System.out.println("Got eid " + this.eid + " from " + s.getInetAddress().getHostAddress());
 			this.ip = socket.getInetAddress();
 			qm.model.clickerConnected(this.eid, this.ip);
 			

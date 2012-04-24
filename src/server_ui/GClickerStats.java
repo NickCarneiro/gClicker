@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import server_ui.GClicker.AnswerField;
+
 public class GClickerStats extends JDialog implements ActionListener
 {
    private static final String SUBMIT = "Submit";
@@ -26,6 +30,7 @@ public class GClickerStats extends JDialog implements ActionListener
    private ButtonGroup answerGroup;
    private GClicker gClicker;
    private GClickerModel model;
+   private int answerCounts[];
    private JButton submitClose, cancel;
    private JPanel buttonPanel;
    
@@ -39,12 +44,15 @@ public class GClickerStats extends JDialog implements ActionListener
       content.setBorder(BorderFactory.createTitledBorder("Select correct answer: "));
       answerGroup = new ButtonGroup();
       
-      int numAns = gClicker.getAnswers().length;
+      //converting answer fields from main input into answer options on stat selection view
+      AnswerField[] answerFields = gClicker.getAnswers();
+      int numAns = answerFields.length;
       answers = new AnswerOption[numAns];
+      System.out.println(numAns);
       for (int i = 0; i < numAns; i++)
       {
-         answers[i] = new AnswerOption(gClicker.getAnswers()[i].getChoice(),
-                                       gClicker.getAnswers()[i].getAnswer());
+         answers[i] = new AnswerOption(answerFields[i].getChoice(), 
+        		 model.getBroadcastedQuestion().getAnswers()[i]);
          content.add(answers[i]);
          answerGroup.add(answers[i].getButton());
       }
@@ -63,7 +71,7 @@ public class GClickerStats extends JDialog implements ActionListener
       buttonPanel.add(Box.createHorizontalStrut(5));
       buttonPanel.add(submitClose);
       content.add(buttonPanel, "RIGHT");
- //updateStats();
+      
       add(content);
       pack();
       setLocationRelativeTo(gClicker.getRelativeComponent());
@@ -94,6 +102,28 @@ public class GClickerStats extends JDialog implements ActionListener
       }
    }
    
+   private void updateAnswerCounts()
+   {
+      TreeMap<String, GPerson> people = model.getPeople();
+
+      answerCounts = new int[answers.length + 1];
+      for (int i = 0; i < answerCounts.length; i++)
+      {
+         answerCounts[i] = 0;
+      }
+      
+      GPerson gPerson;
+      for (Map.Entry<String, GPerson> entry : people.entrySet())
+      {
+         gPerson = entry.getValue();
+         
+         if (gPerson.getAnswer() == GPerson.NO_ANSWER)
+            answerCounts[answerCounts.length - 1]++;
+         else
+            answerCounts[gPerson.getAnswer()]++;
+      }
+   }
+   
    private boolean oneSelected()
    {
       for (int i = 0; i < answers.length; i++)
@@ -115,9 +145,11 @@ public class GClickerStats extends JDialog implements ActionListener
    
    private void updateStats()
    {
+      updateAnswerCounts();
+      
       for (int i = 0; i < answers.length; i++)
       {
-         answers[i].updateStat(i, answers.length);
+         answers[i].updateStat(answerCounts[i], model.getPeople().size());
       }
    }
    

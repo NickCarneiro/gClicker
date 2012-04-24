@@ -30,9 +30,14 @@ public class ConsoleClient{
 			if(!ip.trim().equals("")){
 				server_ip = ip;
 			}
-			
+
 			//connect to server
-			
+			String eid = "njc487";
+
+			if(args.length == 1){
+				eid = args[0];
+			}
+			System.out.println("My eid is " + eid);
 			System.out.println("Connecting to " + server_ip);
 			int port = Integer.parseInt(server_ip.split(":")[1]);
 			String ia = server_ip.split(":")[0];
@@ -40,26 +45,27 @@ public class ConsoleClient{
 
 			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 			ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			
-			Answer dummyAnswer = new Answer(0, Integer.MAX_VALUE, "njc487");
+
+
+			Answer dummyAnswer = new Answer(0, Integer.MAX_VALUE, eid);
 			output.writeObject(dummyAnswer);
 			//prevent InputStream on the server from blocking
 			output.flush();
-			
+
 			System.out.println("Waiting for clicker id.");
 			Question question = (Question) input.readObject();
 			if(question.message == true){
 				clicker_id = question.clicker_id;
 				System.out.println("Clicker id assigned by server: " + clicker_id);
 			}
-			
+
 			System.out.println("Waiting for question.");
 			question = (Question) input.readObject();
 			while(question != null){
 				System.out.println(question);
 				//read answer choice (blocks until user hits enter)
 				int choice = readAnswer(reader, question.size());
-				Answer answer = new Answer(choice, question.id, "njc487");
+				Answer answer = new Answer(choice, question.id, eid);
 				//send back to the server
 				output.writeObject(answer);
 				output.flush();
@@ -67,8 +73,8 @@ public class ConsoleClient{
 				System.out.println("Answer sent. Waiting for next question.");
 				question = (Question) input.readObject();
 			}
-			
-			
+
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,10 +82,10 @@ public class ConsoleClient{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 	/*
 	 * return an integer representing the user's answer.
 	 * A -> 0
@@ -89,7 +95,7 @@ public class ConsoleClient{
 	 */
 	private static int readAnswer(BufferedReader reader, int choice_length){
 		try{
-			
+
 			String line;
 			int result = 0;
 			while((line = reader.readLine()) != null){
@@ -104,15 +110,15 @@ public class ConsoleClient{
 					System.out.println("Please enter a valid letter for one of the answer choices.");
 					continue;
 				}
-				
+
 				break;
 			}
-			
+
 			return result;
 		} catch(IOException e){
 			e.printStackTrace();
 			return 0;
 		} 
-		
+
 	}
 }
