@@ -3,7 +3,6 @@ package edu.desktop.server;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import edu.shared.Answer;
 
@@ -16,7 +15,6 @@ import edu.shared.Answer;
  */
 public class ResponseMonitor implements Runnable {
 	QuestionManager qm;
-	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	public ResponseMonitor(QuestionManager qm, ObjectInputStream in){
 		this.qm = qm;

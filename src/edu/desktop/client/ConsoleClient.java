@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
 
 import edu.shared.Answer;
 import edu.shared.Question;
@@ -21,7 +19,6 @@ import edu.shared.Question;
  */
 public class ConsoleClient{
 	private static String server_ip = "127.0.0.1:3000";
-	private static BufferedReader in;
 	private static int clicker_id;
 	public static void main(String[] args){
 		try {

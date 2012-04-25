@@ -21,6 +21,7 @@ import javax.swing.JRadioButton;
 import edu.desktop.server.ui.GClicker.AnswerField;
 
 
+@SuppressWarnings("serial")
 public class GClickerStats extends JDialog implements ActionListener
 {
    private static final String SUBMIT = "Submit";

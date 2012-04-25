@@ -17,6 +17,7 @@ public class GClickerModel extends Observable
    public static final Font smallerFont = new Font("sansserif", Font.BOLD, 14);
    public static final Font monoSpaceBig = new Font("monospaced", Font.BOLD, 20);
    public static final int MAX_ANSWERS = 5;
+   //number of possible answer choices
    public static final int NUM_CLICK_POSS = 40;
    public static final int NUM_CLICK_COLS = 10;
    

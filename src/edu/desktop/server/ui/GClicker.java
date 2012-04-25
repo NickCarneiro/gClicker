@@ -76,8 +76,10 @@ public class GClicker extends JFrame implements Observer, TimerListener
       eastPanel.add(timer);
       
       int numClickRows = GClickerModel.NUM_CLICK_POSS / GClickerModel.NUM_CLICK_COLS;
-      if ((GClickerModel.NUM_CLICK_POSS % GClickerModel.NUM_CLICK_COLS) != 0)
-         numClickRows++;
+      if ((GClickerModel.NUM_CLICK_POSS % GClickerModel.NUM_CLICK_COLS) != 0){
+    	  numClickRows++;
+      }
+         
       
       clickerRows = new JPanel[numClickRows];
       for (int i = 0; i < numClickRows; i++)
@@ -203,7 +205,7 @@ public class GClicker extends JFrame implements Observer, TimerListener
    {
       try
       {
-         GClicker content = new GClicker();
+         new GClicker();
       } catch (Exception e)
       {
          e.printStackTrace();
