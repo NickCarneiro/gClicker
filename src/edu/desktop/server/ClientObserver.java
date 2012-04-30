@@ -50,6 +50,8 @@ public class ClientObserver implements Observer{
 				this.clicker_id = qm.getClickerId();
 			}
 			
+			System.out.println("Connecting client has been assigned clicker_id " + this.clicker_id);
+			
 			//now send a dummy question to assign the clicker its id number
 			Question dummyQuestion = new Question("");
 			dummyQuestion.message = true;
@@ -84,13 +86,10 @@ public class ClientObserver implements Observer{
 				return;
 			}
 
-
-
-			//System.out.println("Got a question:");
+			System.out.println("Got a question for " + this.eid);
 			//System.out.println(question);
 
-			//serialize this question and send it over the socket
-			
+			//serialize this question and send it over the socket	
 		
 			out.writeObject(question);
 			out.flush();

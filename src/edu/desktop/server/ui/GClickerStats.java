@@ -36,8 +36,7 @@ public class GClickerStats extends JDialog implements ActionListener
    private JButton submitClose, cancel;
    private JPanel buttonPanel;
    
-   public GClickerStats(GClicker gc, GClickerModel m)
-   {
+   public GClickerStats(GClicker gc, GClickerModel m){
       super(gc, "Answer Select", true);
       gClicker = gc;
       model = m;
@@ -50,7 +49,6 @@ public class GClickerStats extends JDialog implements ActionListener
       AnswerField[] answerFields = gClicker.getAnswers();
       int numAns = answerFields.length;
       answers = new AnswerOption[numAns];
-      System.out.println(numAns);
       for (int i = 0; i < numAns; i++)
       {
          answers[i] = new AnswerOption(answerFields[i].getChoice(), 
