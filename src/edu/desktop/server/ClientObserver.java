@@ -40,15 +40,8 @@ public class ClientObserver implements Observer{
 			this.ip = socket.getInetAddress();
 			
 			
-			
-			GPerson person = qm.model.clients.get(this.eid);
-			if(person != null){
-				//we've seen this eid before. reuse the clicker id.
-				this.clicker_id = person.getClickerID();
-			} else {
-				//unrecognized person. generate a unique new id.
-				this.clicker_id = qm.getClickerId();
-			}
+			//tell UI that we got a new person
+			this.clicker_id = qm.model.clickerConnected(this.eid, this.ip);
 			
 			System.out.println("Connecting client has been assigned clicker_id " + this.clicker_id);
 			
@@ -60,8 +53,7 @@ public class ClientObserver implements Observer{
 			out.writeObject(dummyQuestion);
 			out.flush();
 			
-			//tell UI that we got a new person
-			qm.model.clickerConnected(this.eid, this.ip, this.clicker_id);
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

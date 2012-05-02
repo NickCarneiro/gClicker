@@ -104,18 +104,15 @@ public class GClickerStats extends JDialog implements ActionListener
    
    private void updateAnswerCounts()
    {
-      TreeMap<String, GPerson> people = model.getPeople();
-
+      GPerson[] clients = model.getPeople();
+      
+      //initialize answer counts to 0
       answerCounts = new int[answers.length + 1];
-      for (int i = 0; i < answerCounts.length; i++)
-      {
+      for (int i = 0; i < answerCounts.length; i++){
          answerCounts[i] = 0;
       }
       
-      GPerson gPerson;
-      for (Map.Entry<String, GPerson> entry : people.entrySet())
-      {
-         gPerson = entry.getValue();
+      for (GPerson gPerson : clients){
          
          if (gPerson.getAnswer() == GPerson.NO_ANSWER)
             answerCounts[answerCounts.length - 1]++;
@@ -143,13 +140,17 @@ public class GClickerStats extends JDialog implements ActionListener
       }
    }
    
-   private void updateStats()
-   {
+   private void updateStats(){
       updateAnswerCounts();
-      
-      for (int i = 0; i < answers.length; i++)
-      {
-         answers[i].updateStat(answerCounts[i], model.getPeople().size());
+      int connectedClients = 0;
+      GPerson[] clients = model.getPeople();
+      for(int i = 0; i < clients.length; i++){
+    	  if(clients[i] != null){
+    		  connectedClients++;
+    	  }
+      }
+      for (int i = 0; i < answers.length; i++){
+         answers[i].updateStat(answerCounts[i], connectedClients);
       }
    }
    
