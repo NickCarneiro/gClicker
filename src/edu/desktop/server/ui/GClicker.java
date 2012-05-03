@@ -152,7 +152,8 @@ public class GClicker extends JFrame implements Observer, TimerListener
 	public void update(Observable obs, Object obj){
 		GPerson[] clients = model.getPeople();
 		for(GPerson person : clients){
-			if (person.isNewAnswer()){
+			
+			if (person != null && person.isNewAnswer()){
 				clickerBox[person.getClickerID()].changeAnswer(person.getAnswer());
 			}
 

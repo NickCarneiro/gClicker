@@ -42,11 +42,13 @@ public class GClickerModel extends Observable
 	// gClicker Server should call this method whenever any clicker
 	// connects/reconnects to the server. It will return an int that
 	// represents a clickerID for the clicker that just connected.
-	public int clickerConnected(String eid, InetAddress clickerAddress){
+	
+	// It blocks so two people don't get the same clicker id
+	public synchronized int clickerConnected(String eid, InetAddress clickerAddress){
 		GPerson gPerson = null;
 		//first check if this person is already in the array
 		for(GPerson person : clients){
-			if(person.getEID().equals(eid)){
+			if(person != null && person.getEID().equals(eid)){
 				gPerson = person;
 			}
 		}
@@ -114,7 +116,10 @@ public class GClickerModel extends Observable
 	
 	public void resetClickers(){
 		for(GPerson person : clients){
-			person.reset();
+			if(person != null){
+				person.reset();
+			}
+			
 		}
 
 		setChanged();

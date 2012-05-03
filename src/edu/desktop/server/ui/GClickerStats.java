@@ -113,7 +113,9 @@ public class GClickerStats extends JDialog implements ActionListener
       }
       
       for (GPerson gPerson : clients){
-         
+         if(gPerson == null){
+        	 continue;
+         }
          if (gPerson.getAnswer() == GPerson.NO_ANSWER)
             answerCounts[answerCounts.length - 1]++;
          else
