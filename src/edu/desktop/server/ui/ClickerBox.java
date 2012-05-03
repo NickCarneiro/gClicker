@@ -65,6 +65,8 @@ public class ClickerBox extends JPanel implements ActionListener
    {
       if ((answer == GPerson.NO_ANSWER) || (answer == ans))
          flashGreen();
+      else if (ans == GPerson.NO_ANSWER)
+    	 setBackground(Color.white);
       else
          flashYellow();
       
@@ -77,6 +79,7 @@ public class ClickerBox extends JPanel implements ActionListener
       setBackground(Color.WHITE); 
    }
    
+   public boolean isAnswered() { return !(answer == GPerson.NO_ANSWER); }
    public Dimension getPreferredSize() { return new Dimension(55, 40); }
    public Dimension getMinimumSize() { return getPreferredSize(); }
    public Dimension getSize() { return getPreferredSize(); }

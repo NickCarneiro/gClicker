@@ -152,9 +152,17 @@ public class GClicker extends JFrame implements Observer, TimerListener
 	public void update(Observable obs, Object obj){
 		GPerson[] clients = model.getPeople();
 		for(GPerson person : clients){
-			
-			if (person != null && person.isNewAnswer()){
-				clickerBox[person.getClickerID()].changeAnswer(person.getAnswer());
+
+			if (person != null)
+			{
+				if (person.isNewAnswer())
+				{
+					clickerBox[person.getClickerID()].changeAnswer(person.getAnswer());
+					person.setNewAnswer(false);
+				}
+				else if (!clickerBox[person.getClickerID()].isAnswered()){
+					clickerBox[person.getClickerID()].reset();
+				}
 			}
 
 		}
@@ -162,7 +170,7 @@ public class GClicker extends JFrame implements Observer, TimerListener
 
 	public AnswerField[] getAnswers() {
 		//only return answers that have stuff written in their boxes
-				int answer_count = 0;
+		int answer_count = 0;
 		for(int i = 0; i < answers.length; i++){
 			if(answers[i].getAnswer() != null && answers[i].getAnswer().trim().equals("") != true){
 				answer_count++;
